@@ -49,8 +49,8 @@ pdd lineLineIntersection(pdd A, pdd B, pdd C, pdd D)
 // point q lies on line segment 'pr' 
 bool onSegment(pdd p, pdd q, pdd r) 
 { 
-	if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) && 
-		q.y <= max(p.y, r.y) && q.y >= min(p.y, r.y)) 
+	if (q.first <= max(p.first, r.first) && q.first >= min(p.first, r.first) && 
+		q.second <= max(p.second, r.second) && q.second >= min(p.second, r.second)) 
 	return true; 
 
 	return false; 
@@ -65,8 +65,8 @@ int orientation(pdd p, pdd q, pdd r)
 { 
 	// See https://www.geeksforgeeks.org/orientation-3-ordered-points/ 
 	// for details of below formula. 
-	int val = (q.y - p.y) * (r.x - q.x) - 
-			(q.x - p.x) * (r.y - q.y); 
+	int val = (q.second - p.second) * (r.first - q.first) - 
+			(q.first - p.first) * (r.second - q.second); 
 
 	if (val == 0) return 0; // colinear 
 
@@ -112,23 +112,25 @@ int main()
 	float a,b,c,d,e,f,g,h;
 	
 	pdd p1 = make_pair(a, b); 
-    pdd q1 = make_pair(c, d); 
-    pdd p2 = make_pair(e, f); 
-    pdd q2 = make_pair(g, h); 
+    	pdd q1 = make_pair(c, d); 
+    	pdd p2 = make_pair(e, f); 
+    	pdd q2 = make_pair(g, h); 
 
 	//struct Point p1 ,q1;
 	//struct Point p2 ,q2;
+	 pdd intersection = lineLineIntersection(p1, q1, p2, q2); 
+	
 	
 	cout<<"Enter the coordinates of P1(x,y)\n";
-	cin>>a
-    cin>>b
+	cin>>a;
+    	cin>>b;
 
 
 
 
 	cout<<"Enter the coordinates of Q1(x,y)\n";
 	cin>>c;
-    cin>>d;
+    	cin>>d;
 
    
 	cout<<"Enter the coordinates of P2(x,y)\n";
@@ -136,7 +138,7 @@ int main()
 	cin>>e;
 	cin>>f;
 	
-    cout<<"Enter the coordinates of Q2(x,y)\n";
+    	cout<<"Enter the coordinates of Q2(x,y)\n";
 	cin>>g;
 	cin>>h;
 
@@ -150,13 +152,13 @@ int main()
 	
 	if (doIntersect(p1, q1, p2, q2)){
 	    
-	    displayPoint(intersection);
+	    	displayPoint(intersection);
 	}
 
-  else{
+  	else{
       
-      cout<<"No Intersection\n";
-  }
+      		cout<<"No Intersection\n";
+ 	 }
     
     
     
