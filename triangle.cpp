@@ -57,12 +57,8 @@ int main()
 		}
 		cout << "\n";
 	}
-        
-        
-        
         cout.flush();
         beginFlag=true;
     }
     return 0;
-
 }
