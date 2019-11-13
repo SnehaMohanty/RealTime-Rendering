@@ -36,8 +36,8 @@ int main()
 	bool beginFlag=false;
     string line;
     while(getline(cin,line)){
-        if(line == "0 0 0 0 0 0 "){
-        	break;
+        if(line == "0 0 0 0 0 0"){
+        	return(0);
         }else if(beginFlag){
         	cout << "\n";
         }
