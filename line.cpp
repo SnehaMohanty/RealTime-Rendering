@@ -1,46 +1,31 @@
-
-#include <iostream>
+#include <bits/stdc++.h> 
+#include <iostream> 
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <cstring>
 
-using namespace std;
+#define pdd pair<double, double> 
+using namespace std; 
 
-class Point2D {
-public:
-    int x;
-    int y;
-};
+//struct Point 
+//{ 
+//	int first; 
+//	int second; 
+//}; 
 
-int ORI(Point2D p1, Point2D p2,Point2D p3);
-string Inter(Point2D a, Point2D b,Point2D p, Point2D q);
-string InterPoint(Point2D a, Point2D b,Point2D p, Point2D q);
-string GetPointCords(Point2D a);
 
-int main (){
-	bool beginFlag=false;
-    string line;
-    while(getline(cin,line)){
-        if(line == "0 0 0 0 0 0 0 0"){
-        	break;
-        }else if(beginFlag){
-        	cout << "\n";
-        }
-        istringstream ss(line);
-        Point2D a,b,p,q;
-        ss >> a.x >> a.y >> b.x >> b.y >> p.x >> p.y >> q.x >> q.y;
-        cout << Inter(a,b,p,q);
-        cout.flush();
-        beginFlag=true;
-    }
-    return 0;
-}
+int orientation(pdd p1, pdd p2,pdd p3);
+string Inter(pdd a, pdd b,pdd p, pdd q);
+string InterPoint(pdd a, pdd b,pdd p, pdd q);
+string GetPointCords(pdd a);
 
-int ORI(Point2D p1, Point2D p2,Point2D p3){
-	double dx21 = p2.x - p1.x;
-	double dy21 = p2.y - p1.y;
-	double dx31 = p3.x - p1.x;
-	double dy31 = p3.y - p1.y;
+
+int orientation(pdd p1, pdd p2,pdd p3){
+	double dx21 = p2.first - p1.first;
+	double dy21 = p2.second - p1.second;
+	double dx31 = p3.first - p1.first;
+	double dy31 = p3.second - p1.second;
 	if (dx21*dy31 < dy21*dx31) return -1; // ccw
 
 	if (dx21*dy31 > dy21*dx31) return +1; // cw
@@ -52,32 +37,32 @@ int ORI(Point2D p1, Point2D p2,Point2D p3){
 	return 0; // p3 is inside p1,p2
 }
 
-string Inter(Point2D a, Point2D b,Point2D p, Point2D q){
+string Inter(pdd a, pdd b,pdd p, pdd q){
 
     //Cross Intersection
-    if( ORI(a,b,p)*ORI(a,b,q)<0 && ORI(p,q,a)*ORI(p,q,b)<0){
+    if( orientation(a,b,p)*orientation(a,b,q)<0 && orientation(p,q,a)*orientation(p,q,b)<0){
         //Get point of Intersection
         return InterPoint(a,b,p,q);
     }
 
     //Segment intersection
-    if( ORI(a,b,p)*ORI(a,b,q)==0 && ORI(p,q,a)*ORI(p,q,b)==0){
+    if( orientation(a,b,p)*orientation(a,b,q)==0 && orientation(p,q,a)*orientation(p,q,b)==0){
 
-        //Segment one line has same x and y in both points return point cord
-        if(a.x==b.x && a.y==b.y){
+        //Segment one line has same first and second in both points return point cord
+        if(a.first==b.first && a.second==b.second){
             return GetPointCords(a);
         }
 
-        if(p.x==q.x && p.y==q.y){
+        if(p.first==q.first && p.second==q.second){
             return GetPointCords(q);
         }
 
         //Segment where lines have a common point
-        if(((b.x==p.x && b.y==p.y) || (a.x==p.x && a.y==p.y)) && !((b.x==q.x && b.y==q.y) || (a.x==q.x && a.y==q.y))){
+        if(((b.first==p.first && b.second==p.second) || (a.first==p.first && a.second==p.second)) && !((b.first==q.first && b.second==q.second) || (a.first==q.first && a.second==q.second))){
             return GetPointCords(p);
         }
 
-        if(((b.x==q.x && b.y==q.y) || (a.x==q.x && a.y==q.y)) && !((b.x==p.x && b.y==p.y) || (a.x==p.x && a.y==p.y))){
+        if(((b.first==q.first && b.second==q.second) || (a.first==q.first && a.second==q.second)) && !((b.first==p.first && b.second==p.second) || (a.first==p.first && a.second==p.second))){
             return GetPointCords(q);
         }
 
@@ -86,25 +71,45 @@ string Inter(Point2D a, Point2D b,Point2D p, Point2D q){
     return "no intersection";
 }
 
-string GetPointCords(Point2D a){
+string GetPointCords(pdd a){
     ostringstream text;
-    text << fixed << std::setprecision(2) << (double)(a.x) << " " << std::setprecision(2) << (double)(a.y);
+    text << fixed <<setprecision(2) << (double)(a.first) << " " <<setprecision(2) << (double)(a.second);
     return text.str();
 }
 
-string InterPoint(Point2D a, Point2D b,Point2D p, Point2D q){
-    double ua1 = ((q.x-p.x)*(a.y-p.y)-(q.y-p.y)*(a.x-p.x));
-    double ua2 = ((q.y-p.y)*(b.x-a.x)-(q.x-p.x)*(b.y-a.y));
+string InterPoint(pdd a, pdd b,pdd p, pdd q){
+    double ua1 = ((q.first-p.first)*(a.second-p.second)-(q.second-p.second)*(a.first-p.first));
+    double ua2 = ((q.second-p.second)*(b.first-a.first)-(q.first-p.first)*(b.second-a.second));
     double ua = ua1/ua2;
-    double ub1 = ((b.x-a.x)*(a.y-p.y)-(b.y-a.y)*(a.x-p.x));
-    double ub2 = ((q.y-p.y)*(b.x-a.x)-(q.x-p.x)*(b.y-a.y));
+    double ub1 = ((b.first-a.first)*(a.second-p.second)-(b.second-a.second)*(a.first-p.first));
+    double ub2 = ((q.second-p.second)*(b.first-a.first)-(q.first-p.first)*(b.second-a.second));
     double ub = ub1/ub2;
 
-    double x = a.x + ua*(b.x-a.x);
-    double y = a.y + ub*(b.y-a.y);
+    double first = a.first + ua*(b.first-a.first);
+    double second = a.second + ub*(b.second-a.second);
 
     ostringstream text;
-    text << fixed << std::setprecision(2) << x << " " << std::setprecision(2) << y;
+    text << fixed << setprecision(2) << first << " " << setprecision(2) << second;
     return text.str();
 }
 
+
+
+int main (){
+	bool beginFlag=false;
+    string line;
+    while(getline(cin,line)){
+        if(line == "0 0 0 0 0 0 0 0"){
+        	return(0);
+        }else if(beginFlag){
+        	cout << "\n";
+        }
+        istringstream ss(line);
+        pdd p1,p2,p3,p4;
+        ss >> p1.first >> p1.second >> p2.first >> p2.second >> p3.first >> p3.second >> p4.first >> p4.second;
+        cout << Inter(p1,p2,p3,p4);     
+        cout.flush();
+        beginFlag=true;
+    }
+    return 0;
+}
