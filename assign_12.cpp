@@ -11,19 +11,19 @@ using namespace std;
 // Check if the point lies within the triangle by taking sum of inner triangles formed and returning true or false
 bool inTriangle(pdd P, pdd Q, pdd R, pdd S)
 {
-	/* Calculate area of triangle PQR */
+	// Calculate area of triangle PQR 
 	float A = area(P,  Q,  R);
 
-	/* Calculate area of triangle SQR */
+	// Calculate area of triangle SQR 
 	float A1 = area( S, Q, R);
 
-	/* Calculate area of triangle PSR*/
+	// Calculate area of triangle PSR 
 	float A2 = area( P, S, R);
 
-	/* Calculate area of triangle PQS */
+	// Calculate area of triangle PQS 
 	float A3 = area( P, Q, S);
 
-	/* Check if sum of A1, A2 and A3 is same as A */
+	// Check if sum of A1, A2 and A3 is same as A 
 	return (A == A1 + A2 + A3);
 }
 
