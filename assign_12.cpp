@@ -1,6 +1,6 @@
-//Assignment_1.2
-//Sneha Mohanty
-//Ankit Satpute 
+
+//author: Sneha Mohanty
+//author: Ankit Satpute 
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h> 
