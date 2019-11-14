@@ -1,3 +1,7 @@
+//Assignment 1.1
+//Sneha Mohanty
+//Ankit Satpute
+
 #include <bits/stdc++.h> 
 #include <iostream> 
 #include <fstream>
